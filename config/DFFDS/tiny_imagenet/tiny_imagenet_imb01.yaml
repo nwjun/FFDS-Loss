@@ -1,0 +1,59 @@
+name: tiny_imagenet_imb01
+print_freq: 40
+workers: 8
+log_dir: 'logs'
+model_dir: 'ckps'
+
+# dataset & model setting
+dataset: 'tiny_imagenet'
+data_path: './data/tiny-imagenet-200'
+num_classes: 200
+imb_factor: 0.1
+backbone: 'resnet18'
+pretrained: True
+resume: ''
+head_class_idx:
+  - 0
+  - 66
+med_class_idx:
+  - 66
+  - 133
+tail_class_idx:
+  - 133
+  - 200
+
+
+gpu: null
+
+
+# Train
+lr: 0.1
+batch_size: 128
+weight_decay: 2e-4
+num_epochs: 100
+momentum: 0.9
+cos: False
+
+
+# CB weight
+beta: 0.9999
+
+
+# FFDS
+smoothing_alpha: 0.1
+freq_gamma_min: 0.0
+freq_gamma_max: 3.0
+groups: 
+    - 20
+    - 40
+    - 60
+    - 80
+    - 100
+    - 120
+    - 140
+    - 160
+    - 180
+    - 200
+prob_smooth_percentage_alpha: 0.9
+gamma_type: concave
+trigger_epoch: 10

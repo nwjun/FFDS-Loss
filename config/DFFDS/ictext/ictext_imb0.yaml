@@ -1,0 +1,54 @@
+name: ictext_imb0
+print_freq: 40
+workers: 8
+log_dir: 'logs'
+model_dir: 'ckps'
+
+# dataset & model setting
+dataset: 'ictext'
+data_path: './data/ictext2021'
+num_classes: 36
+imb_factor: 0.
+backbone: 'resnet18'
+pretrained: False
+resume: ''
+head_class_idx:
+  - 0
+  - 12
+med_class_idx:
+  - 12
+  - 24
+tail_class_idx:
+  - 24
+  - 36
+
+
+gpu: null
+
+
+# Train
+lr: 0.1
+batch_size: 256
+weight_decay: 2e-4
+num_epochs: 100
+momentum: 0.9
+cos: False
+
+
+# CB weight
+beta: 0.9999
+
+
+# FFDS
+smoothing_alpha: 0.1
+freq_gamma_min: 1.2
+freq_gamma_max: 3.8
+groups: 
+  - 7
+  - 14
+  - 21
+  - 28
+  - 36
+prob_smooth_percentage_alpha: 0.7
+gamma_type: linear
+trigger_epoch: 50

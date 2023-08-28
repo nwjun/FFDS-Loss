@@ -1,0 +1,58 @@
+name: cifar100_imb001
+print_freq: 40
+workers: 8
+log_dir: 'logs'
+model_dir: 'ckps'
+
+# dataset & model setting
+dataset: 'cifar100'
+data_path: './data/cifar100'
+num_classes: 100
+imb_factor: 0.01
+backbone: 'resnet32'
+resume: ''
+head_class_idx:
+  - 0
+  - 35
+med_class_idx:
+  - 35
+  - 70
+tail_class_idx:
+  - 70
+  - 100
+
+
+gpu: null
+
+
+# Train
+lr: 0.1
+batch_size: 128
+weight_decay: 2e-4
+num_epochs: 200
+momentum: 0.9
+cos: False
+
+
+# CB weight
+beta: 0.9999
+
+
+# FFDS
+smoothing_alpha: 0.1
+freq_gamma_min: 0.0
+freq_gamma_max: 4.5
+groups: 
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+  - 60
+  - 70
+  - 80
+  - 90
+  - 100
+prob_smooth_percentage_alpha: 0.9
+gamma_type: concave
+trigger_epoch: 130
