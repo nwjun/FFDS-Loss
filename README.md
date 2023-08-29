@@ -122,8 +122,16 @@ If you find our paper and repository useful, please cite
 ```bibtex
 @inproceedings{icip2023_ffds,
   author={Nah, Wan Jun and Ng, Chun Chet and Lin, Che-Tsung and Lee, Yeong Khang and Kew, Jie Long and Tan, Zhi Qin and Chan, Chee Seng and Zach, Christopher and Lai, Shang-Hong},
-  booktitle={{2023 30th IEEE International Conference on Image Processing (ICIP)}}, 
-  title={{Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing}}, 
-  year={2023},
-  pages={}}
+  booktitle={2023 30th IEEE International Conference on Image Processing (ICIP)}, 
+  title={Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing}, 
+  year={2023}
 ```
+
+## Feedback
+Suggestions and opinions on this work (both positive and negative) are greatly welcomed. Please contact the authors by sending an email to
+`nicolenahwj at gmail.com` or `cs.chan at um.edu.my`.
+
+## License and Copyright
+The project is open source under BSD-3 license (see the ``` LICENSE ``` file).
+
+&#169;2023 Universiti Malaya.
