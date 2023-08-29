@@ -4,7 +4,7 @@
 ### Official pytorch implementation of the paper: 
 #### - Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing
 
-[Paper](document/ICIP2023_longtail.pdf) | [Bibtex](#citation) | [Poster - coming soon]()
+ICIP2023 | [Paper](document/ICIP2023_longtail.pdf) | [Bibtex](#citation) | [Poster - coming soon]()
 
 
 (Released on August 28, 2023)
@@ -127,10 +127,10 @@ To evaluate a trained model from checkpoint, run the following command:
 If you find our paper and repository useful, please cite
 ```bibtex
 @inproceedings{icip2023_ffds,
-  author={Nah, Wan Jun and Ng, Chun Chet and Lin, Che-Tsung and Lee, Yeong Khang and Kew, Jie Long and Tan, Zhi Qin and Chan, Chee Seng and Zach, Christopher and Lai, Shang-Hong},
-  booktitle={2023 30th IEEE International Conference on Image Processing (ICIP)}, 
-  title={Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing}, 
-  year={2023}
+  author = {Nah, Wan Jun and Ng, Chun Chet and Lin, Che-Tsung and Lee, Yeong Khang and Kew, Jie Long and Tan, Zhi Qin and Chan, Chee Seng and Zach, Christopher and Lai, Shang-Hong},
+  booktitle = {2023 30th IEEE International Conference on Image Processing (ICIP)}, 
+  title = {Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing}, 
+  year = {2023}
 ```
 
 ## Feedback
