@@ -1,10 +1,16 @@
 
 # FFDS-Loss
 
+### Official pytorch implementation of the paper: 
+#### - Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing
+
 [Paper](document/ICIP2023_longtail.pdf) | [Bibtex](#citation) | [Poster - coming soon]()
 
-**Introduction**: This repository is the official implementation of ICIP 2023 Paper, [Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing](). This paper highlights the limitations of existing solutions that combine class- and instance-level re-weighting loss in a naive manner. Specifically, we demonstrate that such solutions result in overfitting the training set, significantly impacting the rare classes. To address this issue, we propose a novel loss function that dynamically reduces the influence of outliers and assigns class-dependent focusing parameters. We also introduce a new long-tailed dataset, ICText-LT, featuring various image qualities and greater realism than artificially sampled datasets. Our method has proven effective, outperforming existing methods through superior quantitative results on CIFAR-LT, Tiny ImageNet-LT, and our new ICText-LT
-datasets.
+
+(Released on August 28, 2023)
+
+## Introduction:  
+This paper highlights the limitations of existing solutions that combine class- and instance-level re-weighting loss in a naive manner. Specifically, we demonstrate that such solutions result in overfitting the training set, significantly impacting the rare classes. To address this issue, we propose a novel loss function that dynamically reduces the influence of outliers and assigns class-dependent focusing parameters. We also introduce a new long-tailed dataset, ICText-LT, featuring various image qualities and greater realism than artificially sampled datasets. Our method has proven effective, outperforming existing methods through superior quantitative results on CIFAR-LT, Tiny ImageNet-LT, and our new ICText-LT datasets.
 
 *Codebase Reference: [MiSLAS](https://github.com/dvlab-research/MiSLAS) and [IB-Loss](https://github.com/pseulki/IB-Loss).*
 
