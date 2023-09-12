@@ -11,7 +11,7 @@ class IMBALANCEICTEXT(Dataset):
         if not train:
             split='val'
         self.image_path = os.path.join(root, split, 'imgs')
-        self.label_path = os.path.join(root, split, f'{split}_with_rot.txt')
+        self.label_path = os.path.join(root, split, f'{split}.txt')
         self.imb_num_class = imb_num_class
         self.img_max = img_max
         self.imb_factor = imb_factor

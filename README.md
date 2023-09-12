@@ -19,7 +19,6 @@ This paper highlights the limitations of existing solutions that combine class- 
 ### Requirements
 
 - PyTorch 1.10.0
-- torchvision 0.11.0
 - torchvision 0.15.0
 - yacs 0.1.8
 - wandb 0.13.11
@@ -43,7 +42,7 @@ pip install -r requirements.txt
 
 - Imbalanced [CIFAR](https://www.cs.toronto.edu/~kriz/cifar.html)
 - Imbalanced [Tiny-ImageNet](https://drive.google.com/file/d/16fPIr1qhzlw7zWaFGDSgm4VdlR35_Myu/view?usp=sharing)
-- Imbalanced [ICText](https://github.com/chunchet-ng/ictext)
+- Imbalanced [ICText](https://github.com/chunchet-ng/ICText-AGCL)
   
 Download all the datasets (except CIFAR) and place them in the [./data](/data) folder.  If you prefer a different location for the datasets, you can modify the `data_path` parameter in the `config/*/*.yaml` accordingly.
 
@@ -73,7 +72,7 @@ To train a model, run the following command:
 
 `DATASETNAME`: Can be selected from {`cifar10`, `cifar100`, `tiny_imagenet`, `ictext`} \\
 `IF`: Can be selected from {`001`, `002`, `01`} for CIFAR and {`001`, `01`} for Tiny-ImageNet and {`001`,`0`} for ICText
-> ICText `IF=0` is the natural distribution with imbalance ratio of 18 after removing lower-case letters. Read the [paper]() or visit [ICText Dataset Repository](https://github.com/chunchet-ng/ictext) for more details.
+> ICText `IF=0` is the natural distribution with imbalance ratio of 18 after removing lower-case letters. Read the [paper]() or visit [ICText Dataset Repository](https://github.com/chunchet-ng/ICText-AGCL) for more details.
 
 ## Evaluation
 
@@ -131,6 +130,7 @@ If you find our paper and repository useful, please cite
   booktitle = {2023 30th IEEE International Conference on Image Processing (ICIP)}, 
   title = {Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing}, 
   year = {2023}
+}
 ```
 
 ## Feedback
@@ -138,6 +138,6 @@ Suggestions and opinions on this work (both positive and negative) are greatly w
 `nicolenahwj at gmail.com` or `cs.chan at um.edu.my`.
 
 ## License and Copyright
-The project is open source under BSD-3 license (see the ``` LICENSE ``` file).
+The project is open source under BSD-3 license (see the [LICENSE](LICENSE.txt) file).
 
-&#169;2023 Universiti Malaya.
+&#169; 2023 Universiti Malaya.
