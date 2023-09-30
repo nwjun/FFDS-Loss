@@ -1,6 +1,6 @@
 # Text in the Dark
 
-This branch hosts the source code for the [FFDS](https://nwjun.github.io/FFDS-Loss).<br/>
+This branch hosts the source code for the [FFDS-Loss](https://nwjun.github.io/FFDS-Loss).<br/>
 &#169; 2023 Universiti Malaya. Built with Bootstrap. Inspired by [nerfies.github.io](https://nerfies.github.io/).
 
 # Website License
