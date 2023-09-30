@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing"
+    />
+    <meta
+      name="keywords"
+      content=" Long-tailed Classification, Weighted-loss"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Rethinking Long-Tailed Visual Recognition with Dynamic Probability
+      Smoothing and Frequency Weighted Focusing
+    </title>
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-K3WN7SRQ");
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./static/css/all.min.css" />
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="icon" href="./static/images/favicon.ico" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="./static/js/all.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="./static/js/index.js"></script>
+    <!-- lottie -->
+    <script
+      type="module"
+      src="https://unpkg.com/@dotlottie/player-component@2.3.0/dist/dotlottie-player.mjs"
+    ></script>
+    <!-- Math jax -->
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+
+  <body class="sm:px-0 px-2">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-K3WN7SRQ"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- <div class="container pt-3">
+    <ul class="nav nav-pills justify-content-center gap-2">
+      <li class="nav-item">
+        <a class="btn btn-primary" href="" target="_blank">
+          <i class="fa-solid fa-house"></i>
+            Home
+        </a>
+      </li>
+      <li class="nav-item">
+        <div class="btn-group">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" 
+          data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            More Research
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="" target="_blank">PAPER</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div> -->
+
+    <section class="jumbotron jumbotron-fluid">
+      <div class="col-xs-12 col-md-8 m-auto text-center">
+        <h1 class="title">
+          Rethinking Long-Tailed Visual Recognition with Dynamic Probability
+          Smoothing and Frequency Weighted Focusing
+        </h1>
+
+        <div>
+          <span class="author-block">
+            <a href="https://www.linkedin.com/in/wan-jun-nah" target="_blank"
+              >Wan Jun Nah</a
+            ><sup>1</sup>,
+          </span>
+          <span class="author-block">
+            <a
+              href="https://scholar.google.com/citations?user=1lKI2vEAAAAJ"
+              target="_blank"
+              >Chun Chet Ng</a
+            ><sup>1,</sup>,
+          </span>
+          <span class="author-block">
+            <a
+              href="https://scholar.google.com/citations?user=UewYUXwAAAAJ"
+              target="_blank"
+              >Che-Tsung Lin</a
+            ><sup>2,</sup>,
+          </span>
+          <span class="author-block">
+            <a
+              href="https://www.linkedin.com/in/lee-yeong-khang-79112b65"
+              target="_blank"
+              >Yeong Khang Lee</a
+            ><sup>3</sup>,
+          </span>
+          <br />
+          <span class="author-block">
+            <a
+              href="https://scholar.google.ca/citations?hl=en&user=fYKEYmUAAAAJ"
+              target="_blank"
+              >Jie Long Kew</a
+            ><sup>1</sup>,
+          </span>
+          <span class="author-block">
+            <a
+              href="https://scholar.google.com/citations?user=YEwTuToAAAAJ"
+              target="_blank"
+              >Zhi Qin Tan</a
+            ><sup>1</sup>,
+          </span>
+          <span class="author-block">
+            <a
+              href="https://scholar.google.ca/citations?user=hKfga9oAAAAJ"
+              target="_blank"
+              >Chee Seng Chan</a
+            ><sup>1</sup>,
+          </span>
+          <span class="author-block">
+            <a
+              href="https://scholar.google.ca/citations?user=Pmi5GEAAAAAJ"
+              target="_blank"
+              >Christopher Zach</a
+            ><sup>2</sup>,
+          </span>
+          <span class="author-block">
+            <a
+              href="https://scholar.google.com/citations?user=LlybOXQAAAAJ"
+              target="_blank"
+              >Shang Hong Lai</a
+            ><sup>4</sup>
+          </span>
+        </div>
+
+        <div>
+          <span class="author-block"
+            ><sup>1</sup>Universiti Malaya, Kuala Lumpur, Malaysia</span
+          ><br />
+          <span class="author-block"
+            ><sup>2</sup>Chalmers University of Technology, Gothenburg,
+            Sweden</span
+          ><br />
+          <span class="author-block"
+            ><sup>3</sup>ViTrox Corporation Berhad, Penang, Malaysia</span
+          ><br />
+          <span class="author-block"
+            ><sup>4</sup>National Tsing Hua University, Hsinchu, Taiwan</span
+          ><br />
+        </div>
+      </div>
+
+      <div
+        class="col-xs-12 col-md-6 d-grid gap-2 d-md-block text-center m-auto mt-2"
+      >
+        <a
+          class="btn btn-outline-primary m-1"
+          href="https://ieeexplore.ieee.org/abstract/document/10222779"
+          target="_blank"
+        >
+          <i class="fa-solid fa-file-pdf"></i>
+          Paper
+        </a>
+        <a
+          class="btn btn-outline-primary m-1"
+          href="https://github.com/nwjun/FFDS-Loss/blob/main/document/ICIP2023_longtail_poster.pdf"
+          target="_blank"
+        >
+          <i class="fa-solid fa-chalkboard"></i>
+          Poster
+        </a>
+        <a
+          class="btn btn-outline-primary m-1"
+          href="https://github.com/nwjun/FFDS-Loss/blob/main/document/ICIP2023_longtail_slides.pdf"
+          target="_blank"
+        >
+          <i class="fa-solid fa-file-powerpoint"></i>
+          Slides
+        </a>
+        <a
+          class="btn btn-outline-primary m-1"
+          href="https://github.com/nwjun/FFDS-Loss"
+          target="_blank"
+        >
+          <i class="fa-brands fa-github"></i>
+          GitHub
+        </a>
+        <a
+          class="btn btn-outline-primary m-1"
+          href="https://github.com/chunchet-ng/ICText-AGCL"
+          target="_blank"
+        >
+          <i class="fa-solid fa-images"></i>
+          ICText-LT Dataset
+        </a>
+        <a class="btn btn-outline-primary m-1" href="#BibTex">
+          <i class="fa-solid fa-paperclip"></i>
+          BibTex
+        </a>
+      </div>
+    </section>
+
+    <section class="jumbotron jumbotron-fluid bg-light">
+      <div class="col-xs-12 col-md-6 m-auto text-center">
+        <h2 class="title">Abstract</h2>
+        <p class="text-start">
+          Deep learning models trained on long-tailed (LT) datasets often
+          exhibit bias towards head classes with high frequency. This paper
+          highlights the limitations of existing solutions that combine class-
+          and instance-level re-weighting loss in a naive manner. Specifically,
+          we demonstrate that such solutions re- sult in overfitting the
+          training set, significantly impacting the rare classes. To address
+          this issue, we propose a novel loss function that dynamically reduces
+          the influence of outliers and assigns class-dependent focusing
+          parameters. We also introduce a new long-tailed dataset, ICText-LT,
+          featuring var- ious image qualities and greater realism than
+          artificially sam- pled datasets. Our method has proven effective,
+          outperform- ing existing methods through superior quantitative results
+          on CIFAR-LT, Tiny ImageNet-LT, and our new ICText-LT datasets.
+        </p>
+      </div>
+    </section>
+
+    <section class="jumbotron jumbotron-fluid">
+      <div class="col-xs-11 col-md-6 m-auto text-center">
+        <h2 class="title">Video</h2>
+        <div class="ratio ratio-16x9">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/l_z0qzGYeuY?si=DftshxRU9IiXXb6T"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="jumbotron jumbotron-fluid bg-light">
+      <div class="col-xs-12 col-md-6 m-auto text-center">
+        <h2 class="title">Contributions</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <a href="#FFDS">
+              <dotlottie-player
+                autoplay
+                loop
+                mode="normal"
+                src="static/lottie/abacus_1.lottie"
+                style="height: 130px"
+              >
+                ></dotlottie-player
+              >
+              <h4 class="contribution">FFDS & D-FFDS</h4>
+            </a>
+          </div>
+
+          <div class="col-md-4">
+            <a href="#ICText-LT_Dataset">
+              <dotlottie-player
+                autoplay
+                loop
+                mode="normal"
+                src="static/lottie/image.lottie"
+                style="height: 130px"
+              ></dotlottie-player>
+              <h4 class="contribution">ICText-LT Dataset</h4>
+            </a>
+          </div>
+
+          <div class="col-md-4">
+            <a href="#results">
+              <dotlottie-player
+                autoplay
+                loop
+                mode="normal"
+                src="static/lottie/handshake.lottie"
+                style="height: 130px"
+              ></dotlottie-player>
+              <h4 class="contribution">Promising Results</h4>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="jumbotron jumbotron-fluid" id="FFDS">
+      <div class="col-xs-12 col-md-6 m-auto text-center">
+        <h2 class="title">FFDS & D-FFDS Loss</h2>
+        <p class="text-start">
+          Through our experiments with the CB-FL Loss, which combines instance-
+          and class-level re-weighting, we observe that it is prone to overfit
+          with a large gap between training and testing accuracy and
+          deteriorates as class frequency decreases
+          <a href="#Fig1">(Fig. 1)</a>. We hypothesize this is due to an
+          unintentional focus on outliers with significant instance-level
+          weights. Furthermore, overfitting is exacerbated when the number of
+          samples decreases as class-level weights amplify the loss of outliers.
+        </p>
+        <p class="text-start">
+          To address these issues, we introduce Frequency-weighted Focusing with
+          Dynamic Smoothing Loss (FFDS), comprising two modules: (i)
+          <a href="#FreqFocus">frequency-weighted focusing (FreqFocus)</a> to
+          address intra-class imbalance by re-weighting hard examples of each
+          class based on class frequency, and (ii)
+          <a href="#DynaSmooth">dynamic probability smoothing (DynaSmooth)</a>
+          to alleviate overfitting observed in CB-FL. The equation of FFDS is
+          shown in <a href="#Eq1">Eq. 1</a>.
+        </p>
+        <p class="text-start">
+          To address convergence difficulties and training instability, our
+          deferred variant, D-FFDS, fine-tunes models only after learning
+          meaningful representations with Cross Entropy (CE). In other words,
+          the training process is separated into two phases, with CE used in the
+          first phase and FFDS in the second phase.
+        </p>
+        <figure class="figure col-lg-8 col-10" id="Fig1">
+          <img
+            src="static/images/cifar100_100_overfitting.png"
+            class="figure-img img-fluid rounded"
+          />
+          <figcaption class="figure-caption">
+            Figure 1: Overfitting of CB-FL on CIFAR-100-LT, IF = 100. The
+            colored areas between the upper bound (training acc.) and lower
+            bound (testing acc.) indicate the difference of acc. on training and
+            testing sets. As the class frequency decreases, the gap gets larger.
+            The smaller colored areas prove the superiority of our method
+            (FFDS).
+          </figcaption>
+        </figure>
+        <div class="col-md-12 mb-2 equation" id="Eq1">
+          <p>
+            $$L_{\text{FFDS}}(z,y) = - w_{y} (1-\hat{p}_{y})^{\gamma_{y}}
+            \sum\nolimits^{C}_{j} Q(j)\log(p_{j})$$
+          </p>
+          <figcaption class="figure-caption text-center">
+            Equation 1: Equation of our proposed loss function
+            \(L_\text{FFDS}\).
+          </figcaption>
+        </div>
+
+        <div id="FreqFocus">
+          <h3>FreqFocus</h3>
+          <p class="text-start">
+            In many cases, improving the performance of head classes is limited
+            due to the presence of challenging examples, while tail classes
+            suffer from limited data availability. To tackle this, we introduce
+            a focusing parameter, \(\gamma_y\), aimed at encouraging the model
+            to give more attention to hard examples in head classes while
+            treating examples in tail classes equally. We formulate this idea
+            using three possible curves: linear
+            <a href="#Eq2">(Eq. 2)</a>, convex <a href="#Eq3">(Eq.3)</a> and
+            concave <a href="#Eq4">(Eq. 4)</a>.
+            <a href="#Fig2">Fig. 2</a> illustrates the relationship between
+            class frequency and \(\gamma_y\), along with their respective
+            accuracy on CIFAR100-LT, IF=100.
+          </p>
+          <div class="row m-auto">
+            <div class="col-lg-6">
+              <div class="mb-2 equation" id="Eq2">
+                <p>
+                  $$\gamma_{y}=\gamma_{\text{min}}+(\gamma_{\text{max}}-\gamma_{\text{min}})\left(
+                  \tfrac{N_{y}-N_{\text{min}}}{N_{\text{max}}-N_{\text{min}}}
+                  \right)$$
+                </p>
+                <figcaption class="figure-caption text-center equation">
+                  Equation 2: Linear form defining \(\gamma_y\).
+                </figcaption>
+              </div>
+
+              <div class="mb-2 equation" id="Eq3">
+                <p>
+                  $$\gamma_{y}=\gamma_{\text{min}}+(\gamma_{\text{max}}-\gamma_{\text{min}})\left(
+                  \tfrac{N_{y}-N_{\text{min}}}{N_{\text{max}}-N_{\text{min}}}
+                  \right)^3$$
+                </p>
+                <figcaption class="figure-caption text-center equation">
+                  Equation 3: Convex form defining \(\gamma_y\).
+                </figcaption>
+              </div>
+
+              <div class="mb-2 equation" id="Eq4">
+                <p>
+                  $$\gamma_{y}=\gamma_{\text{min}}+(\gamma_{\text{max}}-\gamma_{\text{min}})\tanh\left(
+                  4\cdot
+                  \tfrac{N_{y}-N_{\text{min}}}{N_{\text{max}}-N_{\text{min}}}
+                  \right)$$
+                </p>
+                <figcaption class="figure-caption text-center">
+                  Equation 4: Concave form defining \(\gamma_y\).
+                </figcaption>
+              </div>
+            </div>
+            <figure class="figure col-lg-5 col-10 text-center" id="Fig2">
+              <img
+                src="static/images/freqfocus.png"
+                class="figure-img img-fluid rounded"
+              />
+              <figcaption class="figure-caption">
+                Figure 2: Relationship between class frequency and \(\gamma_y\),
+                along with their respective accuracy on CIFAR-100-LT, IF = 100.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div id="DynaSmooth">
+          <h3>DynaSmooth</h3>
+          <p class="text-start">
+            DynaSmooth addresses the issue of over-focusing on outliers by
+            dynamically reducing instance-level weights in proportion to their
+            likelihood of being outliers. To maintain training stability, we
+            compute the likelihood of being outliers within groups partitioned
+            according to class frequency. This likelihood is defined as
+            proportional to the difference between the predicted probability and
+            the mean predicted probability of the group representing the
+            ground-truth class. Calculating the square root difference
+            prioritizes small deviations when both values are small. The
+            instance-wise loss is then computed on the smoothed predicted
+            probability, \(\hat{p}\), which is shifted towards the mean. This
+            effectively reduces the extremely high loss on outliers, mitigating
+            overfitting. As the boxplot demonstrated in
+            <a href="#Fig3">Fig. 3</a>, the number of outliers is significantly
+            reduced.
+          </p>
+          <figure class="figure col-lg-8 col-10 text-center" id="Fig3">
+            <img
+              src="static/images/box_plot.png"
+              class="figure-img img-fluid rounded"
+            />
+            <figcaption class="figure-caption">
+              Figure 3: Relationship between class frequency and \(\gamma_y\),
+              along with their respective accuracy on CIFAR-100-LT, IF = 100.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div class="jumbotron jumbotron-fluid bg-light" id="ICText-LT_Dataset">
+      <div class="col-xs-12 col-md-6 m-auto text-center">
+        <h2 class="text-center">ICText-LT Dataset</h2>
+        <p class="text-start">
+          ICText is an industrial-based dataset focused on detecting printed
+          characters on chip components with varying qualities. It comprises 62
+          classes (A-Z, a-z, 0-9) and exhibits long-tail distribution in both
+          training and testing sets . Herein, we resample and balance the
+          distribution of the testing set by removing lower-case letters. As a
+          result, the new ICText-LT dataset comprises 36 classes, including
+          capital letters A to Z and digits 0 to 9. It contains 68,000
+          imbalanced training images and 6,300 balanced testing images,
+          resulting in a natural imbalance factor of 18. To achieve an imbalance
+          factor of 100, further data re-sampling can be applied. The
+          distributions of ICText-LT’s training set are shown in
+          <a href="#Fig4">Fig. 4</a>, along with a few samples to illustrate the
+          variation of images and their level of challenge.
+        </p>
+        <figure class="figure col-lg-8 col-10" id="Fig4">
+          <img
+            src="static/images/ictext_with_examples.png"
+            class="figure-img img-fluid rounded"
+          />
+          <figcaption class="figure-caption">
+            Figure 4: Distribution of ICText-LT’s training set with IF ∈ {18,
+            100}. Images shown are good (left) and bad (right) quality samples.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="jumbotron jumbotron-fluid" id="results">
+      <div class="col-xs-12 col-md-6 m-auto text-center">
+        <h2>Experimental Results</h2>
+        <p class="text-start">
+          <a href="#Tab1">Tab. 1</a> shows the comparisons of our approach to
+          various one-stage and two-stage competing methods. In both training
+          schemes, our methods (FFDS and D-FFDS) outperform the others, with
+          D-FFDS having the best performance across all datasets.
+        </p>
+        <figure class="figure col-lg-8 col-10" id="Tab1">
+          <img
+            src="static/images/results.png"
+            class="figure-img img-fluid rounded"
+          />
+          <figcaption class="figure-caption">
+            Table 1: Comparison of testing accuracy on public CIFAR-10-LT,
+            CIFAR-100-LT, Tiny ImageNet-LT and ICText-LT datasets.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="jumbotron jumbotron-fluid bg-light">
+      <div class="col-xs-12 col-md-6 m-auto text-center">
+        <h2>BibTeX</h2>
+        <p class="text-start">
+          If you find our paper and repository useful, please cite:
+        </p>
+        <div
+          class="text-start text-primary border border-primary rounded p-3"
+          id="bibtex_div_old"
+        >
+          <button
+            class="btn btn-primary float-end ms-2"
+            onclick="copy_text('old')"
+            id="bibtex_btn_old"
+          >
+            <div id="icon_div_old"><i class="fa-solid fa-copy"></i></div>
+          </button>
+          <span id="bibtex_old">
+            @inproceedings{icip2023_ffds,<br />
+            <span class="tab"></span>author = {Nah, Wan Jun and Ng, Chun Chet
+            and Lin, Che-Tsung and Lee, Yeong Khang<br />
+            <span class="tab"></span>and Kew, Jie Long and Tan, Zhi Qin and
+            Chan, Chee Seng <br />
+            <span class="tab"></span>and Zach, Christopher and Lai,
+            Shang-Hong},<br />
+            <span class="tab"></span>booktitle = {2023 30th IEEE International
+            Conference on Image Processing (ICIP)}, <br />
+            <span class="tab"></span>title = {Rethinking Long-Tailed Visual
+            Recognition with Dynamic Probability Smoothing <br />
+            <span class="tab"></span>and Frequency Weighted Focusing},
+            <br />
+            <span class="tab"></span>year = {2023}<br />
+            }
+          </span>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <footer
+    class="jumbotron jumbotron-fluid col-xs-12 col-md-8 m-auto text-center"
+    id="BibTex"
+  >
+    <i class="fa-regular fa-copyright"></i> 2023 Universiti Malaya. Built with
+    Bootstrap. Inspired by
+    <a href="https://github.com/nerfies/nerfies.github.io" target="_blank"
+      >nerfies.github.io</a
+    >.
+  </footer>
+</html>
