@@ -4,8 +4,7 @@
 ### Official pytorch implementation of the paper: 
 #### - Rethinking Long-Tailed Visual Recognition with Dynamic Probability Smoothing and Frequency Weighted Focusing
 
-ICIP2023 | [Paper](document/ICIP2023_longtail.pdf) | [Bibtex](#citation) | [Poster - coming soon]()
-
+ICIP2023 | [Project Page](https://nwjun.github.io/FFDS-Loss) | [Paper](document/ICIP2023_longtail.pdf) | [Video](https://youtu.be/l_z0qzGYeuY) | [Poster](document/ICIP2023_longtail_poster.pdf) | [Slides](document/ICIP2023_longtail_slides.pdf) | [Bibtex](#citation)
 
 (Released on August 28, 2023)
 
